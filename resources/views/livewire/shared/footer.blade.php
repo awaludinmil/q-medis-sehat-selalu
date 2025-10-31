@@ -2,6 +2,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <div>© {{ date('Y') }} Q-Medis</div>
         <div class="flex items-center gap-4">
+            <a href="{{ route('display.kiosk') }}" class="hover:underline">Kiosk</a>
             <a href="{{ route('display.overview') }}" class="hover:underline">Display</a>
             @if(session('access_token'))
                 <a href="{{ route('admin.users') }}" class="hover:underline">Admin</a>
