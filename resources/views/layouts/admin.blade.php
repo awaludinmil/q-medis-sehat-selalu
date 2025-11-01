@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @livewireStyles
 </head>
-<body class="h-full bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white">
+<body class="h-full hospital-bg text-gray-900">
 <div class="min-h-screen">
     @livewire('shared.navbar')
 
     <main class="p-6">
         <div class="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-12 gap-6">
-                <div class="col-span-4 lg:col-span-3">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="col-span-12 md:col-span-4 lg:col-span-3">
                     @livewire('shared.sidebar')
                 </div>
-                <div class="col-span-8 lg:col-span-9 min-w-0">
+                <div class="col-span-12 md:col-span-8 lg:col-span-9 min-w-0">
                     @yield('content')
                 </div>
             </div>
@@ -30,3 +30,4 @@
 @livewireScripts
 </body>
 </html>
+

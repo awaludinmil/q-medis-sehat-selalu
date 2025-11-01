@@ -58,7 +58,7 @@ class Kiosk extends Component
             }
             $this->loading = true;
             $api = app(AntrianApi::class);
-            $resp = $api->create(['loket_id' => $id]);
+            $resp = $api->createPublic(['loket_id' => $id]);
             $data = $resp['data'] ?? $resp['ticket'] ?? $resp;
             if (is_array($data)) {
                 $this->ticket = $data;

@@ -6,10 +6,11 @@ class AuthApi extends BaseApi
 {
     public function login(string $email, string $password): array
     {
-        return $this->post('/api/auth/login', [
+        $json = $this->client()->post('/api/auth/login', [
             'email' => $email,
             'password' => $password,
-        ]);
+        ])->throw()->json();
+        return is_array($json) ? $json : [];
     }
 
     public function me(): array
@@ -19,9 +20,10 @@ class AuthApi extends BaseApi
 
     public function refresh(string $refresh_token): array
     {
-        return $this->post('/api/auth/refresh', [
+        $json = $this->client()->post('/api/auth/refresh', [
             'refresh_token' => $refresh_token,
-        ]);
+        ])->throw()->json();
+        return is_array($json) ? $json : [];
     }
 
     public function logout(?string $refresh_token = null): array
@@ -30,6 +32,8 @@ class AuthApi extends BaseApi
         if ($refresh_token) {
             $data['refresh_token'] = $refresh_token;
         }
-        return $this->post('/api/auth/logout', $data);
+        $client = $this->withAuth($this->client());
+        $json = $client->post('/api/auth/logout', $data)->throw()->json();
+        return is_array($json) ? $json : [];
     }
 }

@@ -13,7 +13,7 @@
 /* Base tweaks for TV-like display */
 @layer base {
   :root {
-    --qm-primary: 30 64 175; /* indigo-700 */
+    --qm-primary: 13 148 136; /* teal-600 */
     --qm-accent: 16 185 129; /* emerald-500 */
     --qm-danger: 220 38 38; /* red-600 */
   }
@@ -25,16 +25,25 @@
 /* Reusable components/utilities */
 @layer components {
   .qm-panel {
-    @apply rounded-2xl border border-gray-200 bg-white/95 shadow-sm dark:border-gray-800 dark:bg-gray-900/80;
+    @apply rounded-2xl border border-gray-200 bg-white shadow-sm;
   }
   .qm-panel-dark {
     @apply rounded-2xl border border-gray-700 bg-gray-900/90 shadow-sm;
   }
   .qm-section-title {
-    @apply text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400;
+    @apply text-xs font-semibold uppercase tracking-wider text-gray-500;
   }
   .qm-chip {
-    @apply inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-200;
+    @apply inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-700;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-[color:rgb(var(--qm-primary))] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[color:rgb(var(--qm-primary))]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:rgb(var(--qm-primary))] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50;
+  }
+  .navbar-surface {
+    @apply bg-white/80 backdrop-blur border-b border-[color:rgb(var(--qm-primary))]/20;
   }
 }
 
@@ -43,11 +52,13 @@
   .digit-xl  { @apply text-4xl md:text-5xl lg:text-6xl font-extrabold tabular-nums; }
   .digit-lg  { @apply text-3xl md:text-4xl font-bold tabular-nums; }
   .next-row  { @apply flex items-center justify-between px-5 py-3; }
-  .next-num  { @apply digit-lg; }
+  .next-num  { @apply text-3xl md:text-4xl font-bold tabular-nums; }
   .next-note { @apply text-base md:text-lg text-gray-600 dark:text-gray-300 line-clamp-1; }
   .current-wrap { @apply flex items-end justify-between gap-6; }
   .current-meta { @apply text-sm uppercase tracking-wide text-gray-400; }
-  .current-sub { @apply mt-2 text-lg md:text-xl text-gray-600 dark:text-gray-300; }
+  .current-sub { @apply mt-2 text-lg md:text-xl text-gray-600; }
   .accent-primary { @apply text-[color:rgb(var(--qm-primary))]; }
-  .badge-loket { @apply qm-chip bg-[color:rgb(var(--qm-primary))]/10 text-[color:rgb(var(--qm-primary))]; }
+  .badge-loket { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-[color:rgb(var(--qm-primary))]/10 text-[color:rgb(var(--qm-primary))]; }
+  .hospital-bg { @apply bg-gradient-to-br from-cyan-50 via-sky-50 to-white; }
 }
+

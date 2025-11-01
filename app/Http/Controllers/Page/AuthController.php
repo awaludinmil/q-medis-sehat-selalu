@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
+use App\Services\Api\AuthApi;
 
 class AuthController extends Controller
 {
@@ -39,7 +40,13 @@ class AuthController extends Controller
 
     public function logout()
     {
-        // Optional: panggil backend logout di sini jika perlu
+        try {
+            $refresh = session('refresh_token');
+            if ($refresh) {
+                app(AuthApi::class)->logout($refresh);
+            }
+        } catch (\Throwable $e) {
+        }
         session()->forget(['access_token', 'refresh_token']);
         return redirect()->route('auth.login');
     }

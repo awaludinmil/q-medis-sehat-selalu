@@ -1,6 +1,6 @@
 @php
-    $loketName = data_get($loket, 'name') ?? data_get($loket, 'nama') ?? data_get($loket, 'label') ?? 'Loket';
-    $number = data_get($ticket, 'queue_number') ?? data_get($ticket, 'number') ?? data_get($ticket, 'no') ?? data_get($ticket, 'code') ?? '-';
+    $loketName = data_get($loket, 'nama_loket') ?? data_get($loket, 'name') ?? data_get($loket, 'nama') ?? data_get($loket, 'label') ?? 'Loket';
+    $number = data_get($ticket, 'nomor_antrian') ?? data_get($ticket, 'queue_number') ?? data_get($ticket, 'number') ?? data_get($ticket, 'no') ?? data_get($ticket, 'code') ?? '-';
     $subtitle = data_get($ticket, 'subtitle') ?? data_get($ticket, 'patient_name') ?? data_get($ticket, 'name');
 @endphp
 

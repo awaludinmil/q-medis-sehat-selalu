@@ -1,5 +1,5 @@
 <aside class="w-full flex-shrink-0">
-    <div class="sticky top-14 lg:h-[calc(100vh-56px)] overflow-y-auto border-b lg:border-b-0 lg:border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <div class="sticky top-14 md:h-[calc(100vh-56px)] overflow-y-auto md:border-r border-gray-200 bg-white/95 dark:border-gray-800 dark:bg-gray-900/80 rounded-xl">
         <div class="p-4 border-b border-gray-100 dark:border-gray-800">
             <div class="text-lg font-semibold">Panel</div>
             <div class="text-xs text-gray-500 dark:text-gray-400">Admin & Petugas</div>
@@ -12,10 +12,10 @@
                     return request()->routeIs(...$patterns);
                 };
                 $navClass = function (bool $active) {
-                    $base = 'block rounded-md px-3 py-2 text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900';
+                    $base = 'block rounded-md px-3 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:rgb(var(--qm-primary))]';
                     return $active
-                        ? $base.' bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white'
-                        : $base.' text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800/60';
+                        ? $base.' bg-[color:rgb(var(--qm-primary))] text-white'
+                        : $base.' text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800/60';
                 };
             @endphp
 

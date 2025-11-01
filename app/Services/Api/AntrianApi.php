@@ -23,4 +23,10 @@ class AntrianApi extends BaseApi
     {
         return $this->put("/api/antrians/{$id}", $data);
     }
+
+    public function createPublic(array $data): array
+    {
+        $json = $this->client()->post('/api/display/antrians', $data)->throw()->json();
+        return is_array($json) ? $json : [];
+    }
 }

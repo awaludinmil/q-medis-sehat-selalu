@@ -3,38 +3,38 @@
         <div class="space-y-2">
             <h1 class="text-xl font-semibold">Users</h1>
             <div class="flex items-center gap-2">
-                <input type="text" placeholder="Cari..." wire:model.defer="search" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" />
+                <input type="text" placeholder="Cari..." wire:model.defer="search" class="rounded-md border border-gray-300 bg-white" />
                 <button wire:click="refresh" class="rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700">Refresh</button>
             </div>
         </div>
         <form wire:submit.prevent="create" class="flex items-end gap-2">
             <div>
                 <label class="block text-xs font-medium">Nama</label>
-                <input type="text" wire:model.defer="name" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" required />
+                <input type="text" wire:model.defer="name" class="rounded-md border border-gray-300 bg-white" required />
             </div>
             <div>
                 <label class="block text-xs font-medium">Email</label>
-                <input type="email" wire:model.defer="email" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" required />
+                <input type="email" wire:model.defer="email" class="rounded-md border border-gray-300 bg-white" required />
             </div>
             <div>
                 <label class="block text-xs font-medium">Password</label>
-                <input type="password" wire:model.defer="password" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" required />
+                <input type="password" wire:model.defer="password" class="rounded-md border border-gray-300 bg-white" required />
             </div>
             <div>
                 <label class="block text-xs font-medium">Role</label>
-                <input type="text" wire:model.defer="role" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" />
+                <input type="text" wire:model.defer="role" class="rounded-md border border-gray-300 bg-white" />
             </div>
             <button type="submit" class="rounded-md bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700">Tambah</button>
         </form>
     </div>
 
     @if($error)
-        <div class="rounded-md bg-red-50 p-3 text-red-700 dark:bg-red-900/30 dark:text-red-200">{{ $error }}</div>
+        <div class="rounded-md bg-red-50 p-3 text-red-700">{{ $error }}</div>
     @endif
 
-    <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="overflow-x-auto rounded-lg border border-gray-200">
         <table class="min-w-full text-sm">
-            <thead class="bg-gray-50 dark:bg-gray-800">
+            <thead class="bg-gray-100 text-gray-800">
                 <tr>
                     <th class="px-3 py-2 text-left">ID</th>
                     <th class="px-3 py-2 text-left">Name</th>
@@ -45,7 +45,7 @@
             </thead>
             <tbody>
                 @forelse($rows as $r)
-                    <tr class="border-t border-gray-200 dark:border-gray-700">
+                    <tr class="border-t border-gray-200">
                         <td class="px-3 py-2">{{ $r['id'] ?? '' }}</td>
                         <td class="px-3 py-2">{{ $r['name'] ?? '' }}</td>
                         <td class="px-3 py-2">{{ $r['email'] ?? '' }}</td>
@@ -64,8 +64,9 @@
     </div>
 
     <div class="flex items-center justify-between">
-        <button wire:click="prevPage" class="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">Sebelumnya</button>
+        <button wire:click="prevPage" class="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50">Sebelumnya</button>
         <div class="text-sm text-gray-500">Halaman {{ $page }}</div>
-        <button wire:click="nextPage" class="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">Berikutnya</button>
+        <button wire:click="nextPage" class="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50">Berikutnya</button>
     </div>
 </div>
+

@@ -9,33 +9,33 @@
         <form wire:submit.prevent="create" class="flex items-end gap-2">
             <div>
                 <label class="block text-xs font-medium">Loket ID</label>
-                <input type="number" wire:model.defer="loket_id" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" required />
+                <input type="number" wire:model.defer="loket_id" class="rounded-md border border-gray-300 bg-white" required />
             </div>
             <button type="submit" class="rounded-md bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700">Tambah</button>
         </form>
     </div>
 
-    <div class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+    <div class="rounded-lg border border-gray-200 p-4">
         <form wire:submit.prevent="updateStatus" class="flex flex-wrap items-end gap-2">
             <div>
                 <label class="block text-xs font-medium">ID Antrian</label>
-                <input type="number" wire:model.defer="update_id" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" />
+                <input type="number" wire:model.defer="update_id" class="rounded-md border border-gray-300 bg-white" />
             </div>
             <div>
                 <label class="block text-xs font-medium">Status</label>
-                <input type="text" placeholder="mis. dipanggil" wire:model.defer="status" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900" />
+                <input type="text" placeholder="mis. dipanggil" wire:model.defer="status" class="rounded-md border border-gray-300 bg-white" />
             </div>
             <button type="submit" class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700">Update Status</button>
         </form>
     </div>
 
     @if($error)
-        <div class="rounded-md bg-red-50 p-3 text-red-700 dark:bg-red-900/30 dark:text-red-200">{{ $error }}</div>
+        <div class="rounded-md bg-red-50 p-3 text-red-700">{{ $error }}</div>
     @endif
 
-    <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="overflow-x-auto rounded-lg border border-gray-200">
         <table class="min-w-full text-sm">
-            <thead class="bg-gray-50 dark:bg-gray-800">
+            <thead class="bg-gray-100 text-gray-800">
                 <tr>
                     <th class="px-3 py-2 text-left">ID</th>
                     <th class="px-3 py-2 text-left">Loket</th>
@@ -46,7 +46,7 @@
             </thead>
             <tbody>
                 @forelse($rows as $r)
-                    <tr class="border-t border-gray-200 dark:border-gray-700">
+                    <tr class="border-t border-gray-200">
                         <td class="px-3 py-2">{{ $r['id'] ?? '' }}</td>
                         <td class="px-3 py-2">{{ $r['loket_id'] ?? '' }}</td>
                         <td class="px-3 py-2">{{ $r['nomor_antrian'] ?? $r['queue_number'] ?? $r['number'] ?? '' }}</td>
@@ -63,8 +63,9 @@
     </div>
 
     <div class="flex items-center justify-between">
-        <button wire:click="prevPage" class="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">Sebelumnya</button>
+        <button wire:click="prevPage" class="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50">Sebelumnya</button>
         <div class="text-sm text-gray-500">Halaman {{ $page }}</div>
-        <button wire:click="nextPage" class="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800">Berikutnya</button>
+        <button wire:click="nextPage" class="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50">Berikutnya</button>
     </div>
 </div>
+
