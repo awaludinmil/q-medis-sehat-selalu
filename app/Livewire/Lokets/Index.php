@@ -15,10 +15,17 @@ class Index extends Component
     public string $order_dir = 'asc';
     public ?string $error = null;
 
-    // Create form
+    // Create/Update form
     public string $nama_loket = '';
     public string $kode_prefix = '';
     public string $deskripsi = '';
+    public int|string $edit_id = '';
+
+    // Modal states
+    public bool $showAddModal = false;
+    public bool $showEditModal = false;
+    public bool $showDeleteModal = false;
+    public int|string $deleteId = '';
 
     public function mount(): void
     {
@@ -64,22 +71,77 @@ class Index extends Component
                 'deskripsi' => $this->deskripsi ?: null,
             ]);
             $this->nama_loket = $this->kode_prefix = $this->deskripsi = '';
+            $this->showAddModal = false;
             $this->refresh();
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
         }
     }
 
-    public function delete(int|string $id): void
+    public function openEditModal(int|string $id): void
+    {
+        $loket = collect($this->rows)->firstWhere('id', $id);
+        if ($loket) {
+            $this->edit_id = $loket['id'];
+            $this->nama_loket = $loket['nama_loket'] ?? '';
+            $this->kode_prefix = $loket['kode_prefix'] ?? '';
+            $this->deskripsi = $loket['deskripsi'] ?? '';
+            $this->showEditModal = true;
+        }
+    }
+
+    public function update(): void
     {
         $this->error = null;
         try {
-            $api = app(LoketApi::class);
-            $api->delete($id);
-            $this->refresh();
+            $id = (int) $this->edit_id;
+            if ($id > 0) {
+                $api = app(LoketApi::class);
+                $api->update($id, [
+                    'nama_loket' => $this->nama_loket,
+                    'kode_prefix' => $this->kode_prefix,
+                    'deskripsi' => $this->deskripsi ?: null,
+                ]);
+                $this->closeEditModal();
+                $this->refresh();
+            }
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
         }
+    }
+
+    public function closeEditModal(): void
+    {
+        $this->showEditModal = false;
+        $this->edit_id = '';
+        $this->nama_loket = $this->kode_prefix = $this->deskripsi = '';
+    }
+
+    public function openDeleteModal(int|string $id): void
+    {
+        $this->deleteId = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function delete(): void
+    {
+        $this->error = null;
+        try {
+            if ($this->deleteId) {
+                $api = app(LoketApi::class);
+                $api->delete($this->deleteId);
+                $this->closeDeleteModal();
+                $this->refresh();
+            }
+        } catch (\Throwable $e) {
+            $this->error = $e->getMessage();
+        }
+    }
+
+    public function closeDeleteModal(): void
+    {
+        $this->showDeleteModal = false;
+        $this->deleteId = '';
     }
 
     public function nextPage(): void

@@ -15,11 +15,18 @@ class Index extends Component
     public string $order_dir = 'asc';
     public ?string $error = null;
 
-    // Create form
+    // Create/Update form
     public string $name = '';
     public string $email = '';
     public string $password = '';
     public string $role = '';
+    public int|string $edit_id = '';
+
+    // Modal states
+    public bool $showAddModal = false;
+    public bool $showEditModal = false;
+    public bool $showDeleteModal = false;
+    public int|string $deleteId = '';
 
     public function mount(): void
     {
@@ -67,22 +74,82 @@ class Index extends Component
             ]);
             // reset form
             $this->name = $this->email = $this->password = $this->role = '';
+            $this->showAddModal = false;
             $this->refresh();
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
         }
     }
 
-    public function delete(int|string $id): void
+    public function openEditModal(int|string $id): void
+    {
+        $user = collect($this->rows)->firstWhere('id', $id);
+        if ($user) {
+            $this->edit_id = $user['id'];
+            $this->name = $user['name'] ?? '';
+            $this->email = $user['email'] ?? '';
+            $this->role = $user['role'] ?? '';
+            $this->password = '';
+            $this->showEditModal = true;
+        }
+    }
+
+    public function update(): void
     {
         $this->error = null;
         try {
-            $api = app(UserApi::class);
-            $api->delete($id);
-            $this->refresh();
+            $id = (int) $this->edit_id;
+            if ($id > 0) {
+                $api = app(UserApi::class);
+                $payload = [
+                    'name' => $this->name,
+                    'email' => $this->email,
+                    'role' => $this->role ?: null,
+                ];
+                if ($this->password !== '') {
+                    $payload['password'] = $this->password;
+                }
+                $api->update($id, $payload);
+                $this->closeEditModal();
+                $this->refresh();
+            }
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
         }
+    }
+
+    public function closeEditModal(): void
+    {
+        $this->showEditModal = false;
+        $this->edit_id = '';
+        $this->name = $this->email = $this->password = $this->role = '';
+    }
+
+    public function openDeleteModal(int|string $id): void
+    {
+        $this->deleteId = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function delete(): void
+    {
+        $this->error = null;
+        try {
+            if ($this->deleteId) {
+                $api = app(UserApi::class);
+                $api->delete($this->deleteId);
+                $this->closeDeleteModal();
+                $this->refresh();
+            }
+        } catch (\Throwable $e) {
+            $this->error = $e->getMessage();
+        }
+    }
+
+    public function closeDeleteModal(): void
+    {
+        $this->showDeleteModal = false;
+        $this->deleteId = '';
     }
 
     public function nextPage(): void

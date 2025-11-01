@@ -1,20 +1,57 @@
-<nav class="navbar-surface">
-    <div class="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8 overflow-x-auto">
-        <div class="flex h-14 items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="/" class="text-lg font-semibold">Q-Medis</a>
+<nav class="bg-white border-b border-gray-100 shadow-sm">
+    <div class="px-6 py-4">
+        <div class="flex items-center justify-between">
+            <!-- Page Title / Breadcrumb Area -->
+            <div>
+                <h2 class="text-xl font-bold text-gray-800">Q-Medis Admin</h2>
             </div>
-            <div class="flex items-center gap-3">
-                @if(session('access_token'))
-                    <form method="POST" action="{{ route('auth.logout') }}">
-                        @csrf
-                        <button class="btn-secondary px-3 py-1.5">Logout</button>
-                    </form>
-                @else
-                    <a href="{{ route('auth.login') }}" class="btn-primary px-3 py-1.5">Login</a>
-                @endif
-            </div>
+
+            <!-- User Profile Menu -->
+            @if(session('access_token'))
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-50 focus:outline-none transition-colors">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-800">Admin User</p>
+                            <p class="text-xs text-gray-500">Administrator</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[color:rgb(var(--qm-primary))] to-[color:rgb(var(--qm-accent))] flex items-center justify-center text-white font-bold shadow-md">
+                            A
+                        </div>
+                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50" style="display: none;" x-cloak>
+                        <div class="px-4 py-3 border-b border-gray-100">
+                            <p class="text-sm font-semibold text-gray-800">Admin User</p>
+                            <p class="text-xs text-gray-500">admin@qmedis.com</p>
+                        </div>
+                        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                            <i class="fas fa-user text-gray-400 w-4"></i>
+                            <span>Profil Saya</span>
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                            <i class="fas fa-cogs text-gray-400 w-4"></i>
+                            <span>Pengaturan</span>
+                        </a>
+                        <hr class="my-2 border-gray-100">
+                        <form method="POST" action="{{ route('auth.logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors text-left">
+                                <i class="fas fa-sign-out-alt w-4"></i>
+                                <span>Keluar</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <a href="{{ route('auth.login') }}" class="px-6 py-2.5 bg-gradient-to-r from-[color:rgb(var(--qm-primary))] to-[color:rgb(var(--qm-accent))] text-white rounded-lg font-semibold text-sm shadow-lg hover:shadow-xl transition-all">
+                    Masuk
+                </a>
+            @endif
         </div>
     </div>
 </nav>
+
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 

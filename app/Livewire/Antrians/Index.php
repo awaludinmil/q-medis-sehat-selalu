@@ -4,20 +4,25 @@ namespace App\Livewire\Antrians;
 
 use Livewire\Component;
 use App\Services\Api\AntrianApi;
-
 class Index extends Component
 {
     public array $rows = [];
     public int $page = 1;
     public int $per_page = 10;
+    public string $search = '';
+    public string $order_by = 'id';
+    public string $order_dir = 'desc';
     public ?string $error = null;
 
     // Create form
-    public int|string $loket_id = '';
+    public $loket_id = '';
 
     // Update form
-    public int|string $update_id = '';
+    public $update_id = '';
     public string $status = '';
+
+    // Modal states
+    public bool $showEditModal = false;
 
     public function mount(): void
     {
@@ -59,6 +64,16 @@ class Index extends Component
         }
     }
 
+    public function openEditModal($id): void
+    {
+        $antrian = collect($this->rows)->firstWhere('id', $id);
+        if ($antrian) {
+            $this->update_id = $antrian['id'];
+            $this->status = $antrian['status'] ?? 'menunggu';
+            $this->showEditModal = true;
+        }
+    }
+
     public function updateStatus(): void
     {
         $this->error = null;
@@ -67,13 +82,19 @@ class Index extends Component
             if ($id > 0 && $this->status !== '') {
                 $api = app(AntrianApi::class);
                 $api->update($id, ['status' => $this->status]);
-                $this->update_id = '';
-                $this->status = '';
+                $this->closeEditModal();
                 $this->refresh();
             }
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
         }
+    }
+
+    public function closeEditModal(): void
+    {
+        $this->showEditModal = false;
+        $this->update_id = '';
+        $this->status = '';
     }
 
     public function nextPage(): void
