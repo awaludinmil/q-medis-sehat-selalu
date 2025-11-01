@@ -4,6 +4,7 @@ namespace App\Livewire\Lokets;
 
 use Livewire\Component;
 use App\Services\Api\LoketApi;
+use App\Services\Api\AuthApi;
 
 class Index extends Component
 {
@@ -14,6 +15,8 @@ class Index extends Component
     public string $order_by = 'id';
     public string $order_dir = 'asc';
     public ?string $error = null;
+    public ?array $user = null;
+    public bool $isAdmin = false;
 
     // Create/Update form
     public string $nama_loket = '';
@@ -29,6 +32,17 @@ class Index extends Component
 
     public function mount(): void
     {
+        // Check user role
+        if (session('access_token')) {
+            try {
+                $response = app(AuthApi::class)->me();
+                $this->user = $response['data'] ?? null;
+                $this->isAdmin = ($this->user['role'] ?? '') === 'admin';
+            } catch (\Throwable $e) {
+                $this->user = null;
+                $this->isAdmin = false;
+            }
+        }
         $this->refresh();
     }
 

@@ -34,13 +34,15 @@
             Kelola Data
         </div>
 
-        <!-- Users -->
-        <a href="{{ route('admin.users') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive(['admin.users']) ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
-            <i class="fas fa-users w-5 text-lg"></i>
-            <span class="ml-3 text-sm">Users / Petugas</span>
-        </a>
+        <!-- Users (Admin Only) -->
+        @if($user && ($user['role'] ?? '') === 'admin')
+            <a href="{{ route('admin.users') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive(['admin.users']) ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
+                <i class="fas fa-users w-5 text-lg"></i>
+                <span class="ml-3 text-sm">Users / Petugas</span>
+            </a>
+        @endif
 
-        <!-- Loket -->
+        <!-- Loket (Read-only for Petugas) -->
         <a href="{{ route('admin.lokets') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive(['admin.lokets']) ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
             <i class="fas fa-door-open w-5 text-lg"></i>
             <span class="ml-3 text-sm">Loket</span>
@@ -50,22 +52,6 @@
         <a href="{{ route('admin.antrians') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive(['admin.antrians']) ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
             <i class="fas fa-list-ol w-5 text-lg"></i>
             <span class="ml-3 text-sm">Antrian</span>
-        </a>
-
-        <!-- Divider -->
-        <div class="my-4 px-6">
-            <div class="border-t border-white/15"></div>
-        </div>
-
-        <!-- Section Heading -->
-        <div class="px-6 py-2 text-xs font-bold text-white/50 uppercase tracking-wider">
-            Akun
-        </div>
-
-        <!-- Profile -->
-        <a href="{{ route('admin.profile') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive(['admin.profile']) ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
-            <i class="fas fa-user-circle w-5 text-lg"></i>
-            <span class="ml-3 text-sm">Profile Saya</span>
         </a>
 
         <!-- Divider -->

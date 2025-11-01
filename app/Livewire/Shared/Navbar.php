@@ -7,6 +7,20 @@ use App\Services\Api\AuthApi;
 
 class Navbar extends Component
 {
+    public $user = null;
+
+    public function mount()
+    {
+        if (session('access_token')) {
+            try {
+                $response = app(AuthApi::class)->me();
+                $this->user = $response['data'] ?? null;
+            } catch (\Throwable $e) {
+                $this->user = null;
+            }
+        }
+    }
+
     public function logout()
     {
         try {

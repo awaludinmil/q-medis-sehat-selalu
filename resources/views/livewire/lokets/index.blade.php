@@ -1,11 +1,13 @@
 <div>
     <!-- Page Heading -->
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Manajemen Loket</h1>
+        <h1 class="text-3xl font-bold text-gray-800">{{ $isAdmin ? 'Manajemen' : 'Daftar' }} Loket</h1>
         <div class="flex gap-3">
-            <button wire:click="$set('showAddModal', true)" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[color:rgb(var(--qm-primary))] to-[color:rgb(var(--qm-accent))] text-white rounded-lg shadow-lg hover:shadow-xl transition-all text-sm font-semibold">
-                <i class="fas fa-plus mr-2"></i> Tambah Loket
-            </button>
+            @if($isAdmin)
+                <button wire:click="$set('showAddModal', true)" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[color:rgb(var(--qm-primary))] to-[color:rgb(var(--qm-accent))] text-white rounded-lg shadow-lg hover:shadow-xl transition-all text-sm font-semibold">
+                    <i class="fas fa-plus mr-2"></i> Tambah Loket
+                </button>
+            @endif
             <button wire:click="refresh" class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg shadow hover:shadow-md transition-all text-sm font-semibold">
                 <i class="fas fa-sync-alt mr-2"></i> Refresh
             </button>
@@ -35,7 +37,9 @@
                             <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">Nama Loket</th>
                             <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200 w-32">Kode Prefix</th>
                             <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">Deskripsi</th>
-                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200 w-32">Aksi</th>
+                            @if($isAdmin)
+                                <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200 w-32">Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -51,20 +55,22 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 text-sm text-gray-600 border-b border-gray-200">{{ $r['deskripsi'] ?? '-' }}</td>
-                                <td class="px-4 py-3 text-sm border-b border-gray-200">
-                                    <div class="flex gap-2">
-                                        <button wire:click="openEditModal({{ $r['id'] ?? 0 }})" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                                            <i class="fas fa-edit mr-1"></i> Edit
-                                        </button>
-                                        <button wire:click="openDeleteModal({{ $r['id'] ?? 0 }})" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                                            <i class="fas fa-trash mr-1"></i> Hapus
-                                        </button>
-                                    </div>
-                                </td>
+                                @if($isAdmin)
+                                    <td class="px-4 py-3 text-sm border-b border-gray-200">
+                                        <div class="flex gap-2">
+                                            <button wire:click="openEditModal({{ $r['id'] ?? 0 }})" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors">
+                                                <i class="fas fa-edit mr-1"></i> Edit
+                                            </button>
+                                            <button wire:click="openDeleteModal({{ $r['id'] ?? 0 }})" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-semibold transition-colors">
+                                                <i class="fas fa-trash mr-1"></i> Hapus
+                                            </button>
+                                        </div>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-4 py-12 text-center text-gray-500 border-b border-gray-200">
+                                <td colspan="{{ $isAdmin ? '5' : '4' }}" class="px-4 py-12 text-center text-gray-500 border-b border-gray-200">
                                     <i class="fas fa-folder-open text-gray-300 text-4xl mb-3"></i>
                                     <p class="text-sm">Tidak ada data loket.</p>
                                 </td>
