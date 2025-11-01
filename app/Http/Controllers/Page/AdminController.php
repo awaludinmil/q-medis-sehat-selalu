@@ -26,4 +26,9 @@ class AdminController extends Controller
     {
         return view('pages.admin.antrians');
     }
+
+    public function profile(): View
+    {
+        return view('pages.admin.profile');
+    }
 }

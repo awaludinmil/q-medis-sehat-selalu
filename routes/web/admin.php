@@ -8,4 +8,5 @@ Route::prefix('admin')->name('admin.')->middleware('frontend.auth')->group(funct
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::get('/lokets', [AdminController::class, 'lokets'])->name('lokets');
     Route::get('/antrians', [AdminController::class, 'antrians'])->name('antrians');
+    Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
 });
