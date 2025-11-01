@@ -25,6 +25,16 @@ class AuthController extends Controller
 
     public function googleCallback(Request $request)
     {
+        // Check for error from backend
+        $error = $request->query('error');
+        if ($error) {
+            $errorMessage = $error === 'google_login_failed' 
+                ? 'Login dengan Google gagal. Silakan coba lagi.'
+                : 'Terjadi kesalahan saat login.';
+            return redirect()->route('auth.login')->with('error', $errorMessage);
+        }
+
+        // Check for tokens
         $access = $request->query('access_token');
         $refresh = $request->query('refresh_token');
         if ($access) {
@@ -34,8 +44,9 @@ class AuthController extends Controller
             ]);
             return redirect()->route('admin.users');
         }
-        // Jika tidak ada token, kembali ke login
-        return redirect()->route('auth.login');
+
+        // Jika tidak ada token dan tidak ada error, kembali ke login
+        return redirect()->route('auth.login')->with('error', 'Login gagal.');
     }
 
     public function logout()
