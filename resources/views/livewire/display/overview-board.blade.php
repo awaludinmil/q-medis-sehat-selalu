@@ -7,7 +7,7 @@
                     <i class="fas fa-tv text-2xl text-white"></i>
                 </div>
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-800">Overview Board</h1>
+                    <h1 class="text-3xl font-bold text-gray-800">Rumah Sakit Sehat Selalu</h1>
                     <p class="text-sm text-gray-600">Pantau Antrian Semua Loket</p>
                 </div>
             </div>
@@ -29,12 +29,13 @@
     @endif
 
     <!-- Grid Loket -->
-    <div wire:poll.{{ config('api.poll_ms', 3000) }}ms="refresh" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-7xl mx-auto">
+    <div wire:poll.{{ config('api.poll_ms', 3000) }}ms="refresh" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 max-w-7xl mx-auto">
         @forelse($items as $row)
             <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-shadow">
                 @include('livewire.display.partials.current-ticket', [
                     'ticket' => $row['current'] ?? null,
                     'loket' => $row['loket'] ?? null,
+                    'compact' => true,
                 ])
                 @include('livewire.display.partials.next-ticket-list', [
                     'tickets' => $row['next'] ?? [],

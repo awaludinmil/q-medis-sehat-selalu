@@ -74,10 +74,6 @@
                         <label class="block text-sm font-semibold text-gray-600 mb-1">Role</label>
                         <p class="text-base text-gray-800">{{ ucfirst($user['role'] ?? '-') }}</p>
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-600 mb-1">User ID</label>
-                        <p class="text-base text-gray-800">{{ $user['id'] ?? '-' }}</p>
-                    </div>
                     @if(isset($user['google_id']) && $user['google_id'])
                     <div>
                         <label class="block text-sm font-semibold text-gray-600 mb-1">Login Method</label>

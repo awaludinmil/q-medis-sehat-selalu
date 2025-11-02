@@ -1,5 +1,5 @@
 @extends('layouts.display')
 
 @section('content')
-    @livewire('display.kiosk')
+    @livewire('display.ambil-antrian')
 @endsection

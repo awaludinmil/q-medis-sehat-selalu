@@ -42,7 +42,7 @@ class AuthController extends Controller
                 'access_token' => $access,
                 'refresh_token' => $refresh,
             ]);
-            return redirect()->route('admin.users');
+            return redirect()->route('admin.dashboard');
         }
 
         // Jika tidak ada token dan tidak ada error, kembali ke login

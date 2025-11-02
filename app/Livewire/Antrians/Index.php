@@ -4,6 +4,7 @@ namespace App\Livewire\Antrians;
 
 use Livewire\Component;
 use App\Services\Api\AntrianApi;
+use App\Services\Api\AuthApi;
 class Index extends Component
 {
     public array $rows = [];
@@ -13,6 +14,9 @@ class Index extends Component
     public string $order_by = 'id';
     public string $order_dir = 'desc';
     public ?string $error = null;
+
+    public ?array $user = null;
+    public bool $canUpdate = false;
 
     // Create form
     public $loket_id = '';
@@ -26,6 +30,18 @@ class Index extends Component
 
     public function mount(): void
     {
+        // determine role and permissions
+        if (session('access_token')) {
+            try {
+                $resp = app(AuthApi::class)->me();
+                $this->user = $resp['data'] ?? null;
+                $role = (string) ($this->user['role'] ?? '');
+                $this->canUpdate = in_array($role, ['admin','petugas'], true);
+            } catch (\Throwable $e) {
+                $this->user = null;
+                $this->canUpdate = false;
+            }
+        }
         $this->refresh();
     }
 
@@ -54,7 +70,7 @@ class Index extends Component
         $this->error = null;
         try {
             $api = app(AntrianApi::class);
-            $api->create([
+            $api->createPublic([
                 'loket_id' => (int) $this->loket_id,
             ]);
             $this->loket_id = '';
@@ -66,6 +82,9 @@ class Index extends Component
 
     public function openEditModal($id): void
     {
+        if (! $this->canUpdate) {
+            return;
+        }
         $antrian = collect($this->rows)->firstWhere('id', $id);
         if ($antrian) {
             $this->update_id = $antrian['id'];
@@ -78,6 +97,10 @@ class Index extends Component
     {
         $this->error = null;
         try {
+            if (! $this->canUpdate) {
+                $this->error = 'Tidak diizinkan';
+                return;
+            }
             $id = (int) $this->update_id;
             if ($id > 0 && $this->status !== '') {
                 $api = app(AntrianApi::class);

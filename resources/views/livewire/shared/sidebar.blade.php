@@ -64,10 +64,10 @@
             Display
         </div>
 
-        <!-- Kiosk -->
-        <a href="{{ route('display.kiosk') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive('display.kiosk') ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
+        <!-- Ambil Antrian -->
+        <a href="{{ route('display.ambil') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive('display.ambil') ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
             <i class="fas fa-desktop w-5 text-lg"></i>
-            <span class="ml-3 text-sm">Kiosk (Ambil Nomor)</span>
+            <span class="ml-3 text-sm">Ambil Antrian</span>
         </a>
 
         <!-- Overview -->

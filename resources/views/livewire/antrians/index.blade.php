@@ -64,9 +64,13 @@
                                     {{ $r['waktu_panggil'] ?? $r['called_at'] ?? '-' }}
                                 </td>
                                 <td class="px-4 py-3 text-sm border-b border-gray-200">
-                                    <button wire:click="openEditModal({{ $r['id'] ?? 0 }})" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                                        <i class="fas fa-edit mr-1"></i> Edit Status
-                                    </button>
+                                    @if($canUpdate)
+                                        <button wire:click="openEditModal({{ $r['id'] ?? 0 }})" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors">
+                                            <i class="fas fa-edit mr-1"></i> Edit Status
+                                        </button>
+                                    @else
+                                        <span class="text-xs text-gray-400">Tidak ada aksi</span>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

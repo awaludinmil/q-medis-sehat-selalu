@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Services\Api\DisplayApi;
 use App\Services\Api\AntrianApi;
 
-class Kiosk extends Component
+class AmbilAntrian extends Component
 {
     public array $lokets = [];
     public int|string $selected = '';
@@ -76,8 +76,14 @@ class Kiosk extends Component
         }
     }
 
+    public function clearAfterPrint(): void
+    {
+        $this->ticket = null;
+        $this->successMessage = null;
+    }
+
     public function render()
     {
-        return view('livewire.display.kiosk');
+        return view('livewire.display.ambil-antrian');
     }
 }

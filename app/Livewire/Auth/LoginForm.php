@@ -27,7 +27,16 @@ class LoginForm extends Component
                 'access_token' => $access,
                 'refresh_token' => $refresh,
             ]);
-            $this->redirectRoute('admin.users', navigate: true);
+            // Redirect based on role
+            try {
+                $me = app(AuthApi::class)->me();
+                $user = $me['data'] ?? $me;
+                $role = (string) ($user['role'] ?? '');
+                $route = $role === 'admin' ? 'admin.dashboard' : 'admin.antrians';
+                $this->redirectRoute($route, navigate: true);
+            } catch (\Throwable $e) {
+                $this->redirectRoute('admin.dashboard', navigate: true);
+            }
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
         }

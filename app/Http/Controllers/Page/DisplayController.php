@@ -7,9 +7,9 @@ use Illuminate\View\View;
 
 class DisplayController extends Controller
 {
-    public function kiosk(): View
+    public function ambil(): View
     {
-        return view('pages.display.kiosk');
+        return view('pages.display.ambil');
     }
 
     public function overview(): View
