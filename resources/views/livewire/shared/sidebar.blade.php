@@ -42,16 +42,10 @@
             </a>
         @endif
 
-        <!-- Loket (Read-only for Petugas) -->
-        <a href="{{ route('admin.lokets') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive(['admin.lokets']) ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
+        <!-- Loket -->
+        <a href="{{ route('admin.lokets') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive(['admin.lokets', 'admin.lokets.show']) ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
             <i class="fas fa-door-open w-5 text-lg"></i>
-            <span class="ml-3 text-sm">Loket</span>
-        </a>
-
-        <!-- Antrian -->
-        <a href="{{ route('admin.antrians') }}" class="flex items-center px-6 py-3 mb-1 text-white/90 hover:bg-white/15 hover:text-white transition-all {{ $isActive(['admin.antrians']) ? 'bg-white/20 font-semibold text-white border-l-4 border-white' : '' }}">
-            <i class="fas fa-list-ol w-5 text-lg"></i>
-            <span class="ml-3 text-sm">Antrian</span>
+            <span class="ml-3 text-sm">Loket & Antrian</span>
         </a>
 
         <!-- Divider -->

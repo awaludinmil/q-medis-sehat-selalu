@@ -73,14 +73,57 @@
             </div>
 
             <!-- Pagination -->
-            <div class="flex items-center justify-between mt-6">
-                <button wire:click="prevPage" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm font-semibold">
-                    <i class="fas fa-chevron-left mr-2"></i> Sebelumnya
-                </button>
-                <span class="text-sm text-gray-600">Halaman {{ $page }}</span>
-                <button wire:click="nextPage" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm font-semibold">
-                    Berikutnya <i class="fas fa-chevron-right ml-2"></i>
-                </button>
+            <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">Rows per page</span>
+                        <select wire:model.live="per_page" class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                    <span class="text-sm text-gray-600">
+                        {{ (($page - 1) * $per_page) + 1 }}-{{ min($page * $per_page, $total) }} of {{ $total }} rows
+                    </span>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <button 
+                        wire:click="firstPage" 
+                        @disabled($page <= 1)
+                        class="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded disabled:text-gray-400 disabled:hover:bg-transparent transition-colors">
+                        <i class="fas fa-angle-double-left"></i>
+                    </button>
+                    <button 
+                        wire:click="prevPage" 
+                        @disabled($page <= 1)
+                        class="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded disabled:text-gray-400 disabled:hover:bg-transparent transition-colors">
+                        Previous
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <input 
+                            type="number" 
+                            wire:model.live.debounce.500ms="page" 
+                            min="1" 
+                            max="{{ $lastPage }}" 
+                            class="w-16 px-2 py-1.5 text-center border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500">
+                        <span class="text-sm text-gray-600">of {{ $lastPage }}</span>
+                    </div>
+                    <button 
+                        wire:click="nextPage" 
+                        @disabled($page >= $lastPage)
+                        class="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded disabled:text-gray-400 disabled:hover:bg-transparent transition-colors">
+                        Next
+                    </button>
+                    <button 
+                        wire:click="lastPageAction" 
+                        @disabled($page >= $lastPage)
+                        class="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded disabled:text-gray-400 disabled:hover:bg-transparent transition-colors">
+                        <i class="fas fa-angle-double-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

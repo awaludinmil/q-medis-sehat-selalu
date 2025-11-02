@@ -22,9 +22,9 @@ class AdminController extends Controller
         return view('pages.admin.lokets');
     }
 
-    public function antrians(): View
+    public function showLoket($id): View
     {
-        return view('pages.admin.antrians');
+        return view('pages.admin.loket-detail', ['loketId' => $id]);
     }
 
     public function profile(): View

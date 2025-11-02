@@ -14,6 +14,8 @@ class Index extends Component
     public string $order_by = 'id';
     public string $order_dir = 'asc';
     public ?string $error = null;
+    public int $total = 0;
+    public int $lastPage = 1;
 
     // Create/Update form
     public string $name = '';
@@ -51,13 +53,27 @@ class Index extends Component
                 'order_dir' => $this->order_dir,
             ]);
             $data = $resp['data'] ?? $resp['items'] ?? $resp;
-            if (isset($data['data']) && is_array($data['data'])) {
-                $data = $data['data'];
+            
+            // Handle pagination
+            if (isset($resp['data']['pagination'])) {
+                $pagination = $resp['data']['pagination'];
+                $this->total = $pagination['total'] ?? 0;
+                $this->lastPage = $pagination['last_page'] ?? 1;
+                $this->rows = is_array($resp['data']['data']) ? array_values($resp['data']['data']) : [];
+            } elseif (isset($data['data']) && is_array($data['data'])) {
+                $this->rows = array_values($data['data']);
+                $this->total = count($this->rows);
+                $this->lastPage = 1;
+            } else {
+                $this->rows = is_array($data) ? array_values($data) : [];
+                $this->total = count($this->rows);
+                $this->lastPage = 1;
             }
-            $this->rows = is_array($data) ? array_values($data) : [];
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
             $this->rows = [];
+            $this->total = 0;
+            $this->lastPage = 1;
         }
     }
 
@@ -154,14 +170,41 @@ class Index extends Component
 
     public function nextPage(): void
     {
-        $this->page += 1;
-        $this->refresh();
+        if ($this->page < $this->lastPage) {
+            $this->page++;
+            $this->refresh();
+        }
     }
 
     public function prevPage(): void
     {
-        if ($this->page > 1) $this->page -= 1;
+        if ($this->page > 1) {
+            $this->page--;
+            $this->refresh();
+        }
+    }
+    
+    public function firstPage(): void
+    {
+        $this->page = 1;
         $this->refresh();
+    }
+    
+    public function lastPageAction(): void
+    {
+        $this->page = $this->lastPage;
+        $this->refresh();
+    }
+    
+    public function goToPage($pageNumber): void
+    {
+        $this->page = max(1, min((int)$pageNumber, $this->lastPage));
+        $this->refresh();
+    }
+    
+    public function updatingPerPage(): void
+    {
+        $this->page = 1;
     }
 
     public function render()

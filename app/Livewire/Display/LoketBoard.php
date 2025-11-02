@@ -13,6 +13,8 @@ class LoketBoard extends Component
     public ?array $current = null;
     public array $next = [];
     public ?string $error = null;
+    public string $currentTime = '';
+    public string $currentDate = '';
 
     public function mount(int|string $loketId): void
     {
@@ -23,6 +25,9 @@ class LoketBoard extends Component
     public function refresh(): void
     {
         $this->error = null;
+        $this->currentTime = now()->format('H:i:s');
+        $this->currentDate = now()->format('d M Y');
+        
         try {
             $api = app(DisplayApi::class);
             $resp = $api->loket($this->loketId);

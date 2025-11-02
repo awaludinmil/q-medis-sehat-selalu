@@ -16,8 +16,8 @@
             </div>
             <div class="text-right">
                 <div class="text-sm text-gray-500 uppercase tracking-wide">Waktu</div>
-                <div class="text-2xl font-bold text-gray-800 tabular-nums">{{ now()->format('H:i:s') }}</div>
-                <div class="text-xs text-gray-500">{{ now()->format('d M Y') }}</div>
+                <div class="text-2xl font-bold text-gray-800 tabular-nums">{{ $currentTime }}</div>
+                <div class="text-xs text-gray-500">{{ $currentDate }}</div>
             </div>
         </div>
     </div>

@@ -9,6 +9,8 @@ class OverviewBoard extends Component
 {
     public array $items = [];
     public ?string $error = null;
+    public string $currentTime = '';
+    public string $currentDate = '';
 
     public function mount(): void
     {
@@ -18,6 +20,9 @@ class OverviewBoard extends Component
     public function refresh(): void
     {
         $this->error = null;
+        $this->currentTime = now()->format('H:i:s');
+        $this->currentDate = now()->format('d M Y');
+        
         try {
             $api = app(DisplayApi::class);
             $resp = $api->overview();

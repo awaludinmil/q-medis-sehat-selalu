@@ -23,73 +23,114 @@
         </div>
     @endif
 
-    <!-- DataTable Card -->
-    <div class="bg-white rounded-lg shadow">
-        <div class="px-6 py-4 border-b border-gray-200">
-            <h6 class="text-lg font-bold text-blue-600"><i class="fas fa-table mr-2"></i>Daftar Loket</h6>
-        </div>
-        <div class="p-6">
-            <div class="overflow-x-auto">
-                <table class="w-full border border-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200 w-20">ID</th>
-                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">Nama Loket</th>
-                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200 w-32">Kode Prefix</th>
-                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">Deskripsi</th>
-                            @if($isAdmin)
-                                <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200 w-32">Aksi</th>
-                            @endif
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($rows as $r)
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-3 text-sm text-gray-600 border-b border-gray-200">{{ $r['id'] ?? '' }}</td>
-                                <td class="px-4 py-3 text-sm font-semibold text-gray-800 border-b border-gray-200">
-                                    <i class="fas fa-door-open mr-2 text-green-500"></i>{{ $r['nama_loket'] ?? '' }}
-                                </td>
-                                <td class="px-4 py-3 text-sm border-b border-gray-200">
-                                    <span class="inline-block px-3 py-1 bg-gradient-to-r from-cyan-500 to-cyan-700 text-white rounded-lg text-sm font-semibold">
-                                        {{ $r['kode_prefix'] ?? '' }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3 text-sm text-gray-600 border-b border-gray-200">{{ $r['deskripsi'] ?? '-' }}</td>
-                                @if($isAdmin)
-                                    <td class="px-4 py-3 text-sm border-b border-gray-200">
-                                        <div class="flex gap-2">
-                                            <button wire:click="openEditModal({{ $r['id'] ?? 0 }})" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                                                <i class="fas fa-edit mr-1"></i> Edit
-                                            </button>
-                                            <button wire:click="openDeleteModal({{ $r['id'] ?? 0 }})" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                                                <i class="fas fa-trash mr-1"></i> Hapus
-                                            </button>
-                                        </div>
-                                    </td>
-                                @endif
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="{{ $isAdmin ? '5' : '4' }}" class="px-4 py-12 text-center text-gray-500 border-b border-gray-200">
-                                    <i class="fas fa-folder-open text-gray-300 text-4xl mb-3"></i>
-                                    <p class="text-sm">Tidak ada data loket.</p>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @forelse($rows as $r)
+            <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-[color:rgb(var(--qm-primary))] to-[color:rgb(var(--qm-accent))] p-4">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-white mb-1">
+                                <i class="fas fa-door-open mr-2"></i>{{ $r['nama_loket'] ?? '' }}
+                            </h3>
+                            <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm text-white rounded-lg text-sm font-semibold">
+                                {{ $r['kode_prefix'] ?? '' }}
+                            </span>
+                        </div>
+                        @if($isAdmin)
+                            <div class="relative" x-data="{ open: false }">
+                                <button @click="open = !open" class="p-2 hover:bg-white/20 rounded-lg transition-colors text-white">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-10 py-1" style="display: none;">
+                                    <a href="{{ route('admin.lokets.show', $r['id'] ?? 0) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-eye mr-2 text-blue-500"></i> View Detail
+                                    </a>
+                                    <button wire:click="openEditModal({{ $r['id'] ?? 0 }})" @click="open = false" class="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-edit mr-2 text-green-500"></i> Update
+                                    </button>
+                                    <button wire:click="openDeleteModal({{ $r['id'] ?? 0 }})" @click="open = false" class="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-trash mr-2 text-red-500"></i> Hapus
+                                    </button>
+                                </div>
+                            </div>
+                        @else
+                            <a href="{{ route('admin.lokets.show', $r['id'] ?? 0) }}" class="p-2 hover:bg-white/20 rounded-lg transition-colors text-white">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-600 text-sm mb-3">
+                        {{ $r['deskripsi'] ?? 'Tidak ada deskripsi' }}
+                    </p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span><i class="fas fa-hashtag mr-1"></i>ID: {{ $r['id'] ?? '' }}</span>
+                    </div>
+                </div>
             </div>
+        @empty
+            <div class="col-span-full">
+                <div class="bg-white rounded-lg shadow p-12 text-center">
+                    <i class="fas fa-folder-open text-gray-300 text-6xl mb-4"></i>
+                    <p class="text-gray-500 text-lg">Tidak ada data loket.</p>
+                </div>
+            </div>
+        @endforelse
+    </div>
 
-            <!-- Pagination -->
-            <div class="flex items-center justify-between mt-6">
-                <button wire:click="prevPage" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm font-semibold">
-                    <i class="fas fa-chevron-left mr-2"></i> Sebelumnya
-                </button>
-                <span class="text-sm text-gray-600">Halaman {{ $page }}</span>
-                <button wire:click="nextPage" class="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm font-semibold">
-                    Berikutnya <i class="fas fa-chevron-right ml-2"></i>
-                </button>
+    <!-- Pagination -->
+    <div class="flex items-center justify-between mt-8 bg-white px-6 py-4 rounded-lg shadow">
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <span class="text-sm text-gray-600">Rows per page</span>
+                <select wire:model.live="per_page" class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+                    <option value="6">6</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
             </div>
+            <span class="text-sm text-gray-600">
+                {{ (($page - 1) * $per_page) + 1 }}-{{ min($page * $per_page, $total) }} of {{ $total }} rows
+            </span>
+        </div>
+        
+        <div class="flex items-center gap-2">
+            <button 
+                wire:click="firstPage" 
+                @disabled($page <= 1)
+                class="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded disabled:text-gray-400 disabled:hover:bg-transparent transition-colors">
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+            <button 
+                wire:click="prevPage" 
+                @disabled($page <= 1)
+                class="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded disabled:text-gray-400 disabled:hover:bg-transparent transition-colors">
+                Previous
+            </button>
+            <div class="flex items-center gap-2">
+                <input 
+                    type="number" 
+                    wire:model.live.debounce.500ms="page" 
+                    min="1" 
+                    max="{{ $lastPage }}" 
+                    class="w-16 px-2 py-1.5 text-center border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500">
+                <span class="text-sm text-gray-600">of {{ $lastPage }}</span>
+            </div>
+            <button 
+                wire:click="nextPage" 
+                @disabled($page >= $lastPage)
+                class="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded disabled:text-gray-400 disabled:hover:bg-transparent transition-colors">
+                Next
+            </button>
+            <button 
+                wire:click="lastPageAction" 
+                @disabled($page >= $lastPage)
+                class="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded disabled:text-gray-400 disabled:hover:bg-transparent transition-colors">
+                <i class="fas fa-angle-double-right"></i>
+            </button>
         </div>
     </div>
 
