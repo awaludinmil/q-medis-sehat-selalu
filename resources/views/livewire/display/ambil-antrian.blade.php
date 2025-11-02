@@ -5,6 +5,10 @@
             <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[color:rgb(var(--qm-primary))] to-[color:rgb(var(--qm-accent))] shadow-xl mb-6">
                 <i class="fas fa-hospital-user text-3xl text-white"></i>
             </div>
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-[color:rgb(var(--qm-primary))] mb-2">Rumah Sakit Sehat Selalu</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-[color:rgb(var(--qm-primary))] to-[color:rgb(var(--qm-accent))] mx-auto rounded-full"></div>
+            </div>
             <h1 class="text-4xl font-bold text-gray-800 mb-3">Ambil Antrian</h1>
             <p class="text-lg text-gray-600">Ambil Nomor Antrian Anda</p>
         </div>
