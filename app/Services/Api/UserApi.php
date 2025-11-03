@@ -14,18 +14,18 @@ class UserApi extends BaseApi
         return $this->post('/api/users', $data);
     }
 
-    public function getById(int|string $id): array
+    public function getById($id): array
     {
         return $this->get("/api/users/{$id}");
     }
 
-    public function update(int|string $id, array $data): array
+    public function update($id, array $data): array
     {
         return $this->put("/api/users/{$id}", $data);
     }
 
-    public function delete(int|string $id): array
+    public function deleteUser($id): array
     {
-        return $this->delete("/api/users/{$id}");
+        return parent::delete("/api/users/{$id}");
     }
 }

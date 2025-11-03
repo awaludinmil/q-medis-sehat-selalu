@@ -22,13 +22,13 @@ class Index extends Component
     public string $email = '';
     public string $password = '';
     public string $role = '';
-    public int|string $edit_id = '';
+    public $edit_id = '';
 
     // Modal states
     public bool $showAddModal = false;
     public bool $showEditModal = false;
     public bool $showDeleteModal = false;
-    public int|string $deleteId = '';
+    public $deleteId = '';
 
     public function mount(): void
     {
@@ -97,7 +97,7 @@ class Index extends Component
         }
     }
 
-    public function openEditModal(int|string $id): void
+    public function openEditModal($id): void
     {
         $user = collect($this->rows)->firstWhere('id', $id);
         if ($user) {
@@ -141,7 +141,7 @@ class Index extends Component
         $this->name = $this->email = $this->password = $this->role = '';
     }
 
-    public function openDeleteModal(int|string $id): void
+    public function openDeleteModal($id): void
     {
         $this->deleteId = $id;
         $this->showDeleteModal = true;
@@ -153,7 +153,7 @@ class Index extends Component
         try {
             if ($this->deleteId) {
                 $api = app(UserApi::class);
-                $api->delete($this->deleteId);
+                $api->deleteUser($this->deleteId);
                 $this->closeDeleteModal();
                 $this->refresh();
             }

@@ -9,7 +9,7 @@ use App\Services\Api\AuthApi;
 
 class Show extends Component
 {
-    public int|string $loketId;
+    public $loketId;
     public ?array $loket = null;
     public array $antrians = [];
     public ?string $error = null;
@@ -150,7 +150,7 @@ class Show extends Component
         $this->loadAntrians();
     }
 
-    public function callAntrian(int|string $id): void
+    public function callAntrian($id): void
     {
         if (!$this->canUpdate) {
             $this->error = 'Tidak diizinkan';
@@ -167,7 +167,7 @@ class Show extends Component
         }
     }
 
-    public function finishAntrian(int|string $id): void
+    public function finishAntrian($id): void
     {
         if (!$this->canUpdate) {
             $this->error = 'Tidak diizinkan';

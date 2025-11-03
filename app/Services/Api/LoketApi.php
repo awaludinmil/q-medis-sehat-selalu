@@ -14,18 +14,18 @@ class LoketApi extends BaseApi
         return $this->post('/api/lokets', $data);
     }
 
-    public function getById(int|string $id): array
+    public function getById($id): array
     {
         return $this->get("/api/lokets/{$id}");
     }
 
-    public function update(int|string $id, array $data): array
+    public function update($id, array $data): array
     {
         return $this->put("/api/lokets/{$id}", $data);
     }
 
-    public function delete(int|string $id): array
+    public function deleteLoket($id): array
     {
-        return $this->delete("/api/lokets/{$id}");
+        return parent::delete("/api/lokets/{$id}");
     }
 }

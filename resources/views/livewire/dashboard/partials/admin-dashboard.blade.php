@@ -104,8 +104,8 @@
                 <h6 class="text-lg font-bold text-blue-600">Tindakan Cepat</h6>
             </div>
             <div class="p-6 space-y-3">
-                <a href="{{ route('admin.antrians') }}" class="block w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg font-semibold text-center shadow hover:shadow-md transition-shadow">
-                    <i class="fas fa-plus-circle mr-2"></i> Buat Antrian
+                <a href="{{ route('display.ambil') }}" class="block w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-lg font-semibold text-center shadow hover:shadow-md transition-shadow">
+                    <i class="fas fa-list mr-2"></i> Ambil Antrian
                 </a>
                 <a href="{{ route('admin.users') }}" class="block w-full px-4 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg font-semibold text-center shadow hover:shadow-md transition-shadow">
                     <i class="fas fa-user-plus mr-2"></i> Tambah Petugas
