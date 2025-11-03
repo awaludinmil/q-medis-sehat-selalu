@@ -37,28 +37,27 @@
                                 {{ $r['kode_prefix'] ?? '' }}
                             </span>
                         </div>
-                        @if($isAdmin)
-                            <div class="relative" x-data="{ open: false }">
-                                <button @click="open = !open" class="p-2 hover:bg-white/20 rounded-lg transition-colors text-white">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-10 py-1" style="display: none;">
+                        <div class="relative">
+                            <button wire:click="toggleMenu({{ $r['id'] ?? 0 }})" class="p-2 hover:bg-white/20 rounded-lg transition-colors text-white" title="Opsi">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            @if($openMenuId === ($r['id'] ?? 0))
+                                <div class="fixed inset-0 z-40" wire:click="closeMenu"></div>
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50 py-1">
                                     <a href="{{ route('admin.lokets.show', $r['id'] ?? 0) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         <i class="fas fa-eye mr-2 text-blue-500"></i> View Detail
                                     </a>
-                                    <button wire:click="openEditModal({{ $r['id'] ?? 0 }})" @click="open = false" class="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <i class="fas fa-edit mr-2 text-green-500"></i> Update
-                                    </button>
-                                    <button wire:click="openDeleteModal({{ $r['id'] ?? 0 }})" @click="open = false" class="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <i class="fas fa-trash mr-2 text-red-500"></i> Hapus
-                                    </button>
+                                    @if($isAdmin)
+                                        <button wire:click="openEditModal({{ $r['id'] ?? 0 }})" class="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            <i class="fas fa-edit mr-2 text-green-500"></i> Update
+                                        </button>
+                                        <button wire:click="openDeleteModal({{ $r['id'] ?? 0 }})" class="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            <i class="fas fa-trash mr-2 text-red-500"></i> Hapus
+                                        </button>
+                                    @endif
                                 </div>
-                            </div>
-                        @else
-                            <a href="{{ route('admin.lokets.show', $r['id'] ?? 0) }}" class="p-2 hover:bg-white/20 rounded-lg transition-colors text-white">
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                        @endif
+                            @endif
+                        </div>
                     </div>
                 </div>
                 <div class="p-4">

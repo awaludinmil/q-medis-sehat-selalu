@@ -24,13 +24,14 @@ class Index extends Component
     public string $nama_loket = '';
     public string $kode_prefix = '';
     public string $deskripsi = '';
-    public $edit_id = '';
+    public int|string $edit_id = '';
 
     // Modal states
     public bool $showAddModal = false;
     public bool $showEditModal = false;
     public bool $showDeleteModal = false;
-    public $deleteId = '';
+    public int|string $deleteId = '';
+    public int|string|null $openMenuId = null;
 
     public function mount(): void
     {
@@ -39,7 +40,7 @@ class Index extends Component
             try {
                 $response = app(AuthApi::class)->me();
                 $this->user = $response['data'] ?? null;
-                $this->isAdmin = ($this->user['role'] ?? '') === 'admin';
+                $this->isAdmin = (($this->user['role'] ?? '') === 'admin');
             } catch (\Throwable $e) {
                 $this->user = null;
                 $this->isAdmin = false;
@@ -93,6 +94,10 @@ class Index extends Component
     public function create(): void
     {
         $this->error = null;
+        if (!$this->isAdmin) {
+            $this->error = 'Tidak diizinkan';
+            return;
+        }
         try {
             $api = app(LoketApi::class);
             $api->create([
@@ -108,8 +113,12 @@ class Index extends Component
         }
     }
 
-    public function openEditModal($id): void
+    public function openEditModal(int|string $id): void
     {
+        if (!$this->isAdmin) {
+            $this->error = 'Tidak diizinkan';
+            return;
+        }
         $loket = collect($this->rows)->firstWhere('id', $id);
         if ($loket) {
             $this->edit_id = $loket['id'];
@@ -117,12 +126,17 @@ class Index extends Component
             $this->kode_prefix = $loket['kode_prefix'] ?? '';
             $this->deskripsi = $loket['deskripsi'] ?? '';
             $this->showEditModal = true;
+            $this->openMenuId = null;
         }
     }
 
     public function update(): void
     {
         $this->error = null;
+        if (!$this->isAdmin) {
+            $this->error = 'Tidak diizinkan';
+            return;
+        }
         try {
             $id = (int) $this->edit_id;
             if ($id > 0) {
@@ -147,15 +161,24 @@ class Index extends Component
         $this->nama_loket = $this->kode_prefix = $this->deskripsi = '';
     }
 
-    public function openDeleteModal($id): void
+    public function openDeleteModal(int|string $id): void
     {
+        if (!$this->isAdmin) {
+            $this->error = 'Tidak diizinkan';
+            return;
+        }
         $this->deleteId = $id;
         $this->showDeleteModal = true;
+        $this->openMenuId = null;
     }
 
     public function delete(): void
     {
         $this->error = null;
+        if (!$this->isAdmin) {
+            $this->error = 'Tidak diizinkan';
+            return;
+        }
         try {
             if ($this->deleteId) {
                 $api = app(LoketApi::class);
@@ -172,6 +195,16 @@ class Index extends Component
     {
         $this->showDeleteModal = false;
         $this->deleteId = '';
+    }
+
+    public function toggleMenu(int|string $id): void
+    {
+        $this->openMenuId = ($this->openMenuId === $id) ? null : $id;
+    }
+
+    public function closeMenu(): void
+    {
+        $this->openMenuId = null;
     }
 
     public function nextPage(): void
