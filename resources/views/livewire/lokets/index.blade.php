@@ -64,9 +64,6 @@
                     <p class="text-gray-600 text-sm mb-3">
                         {{ $r['deskripsi'] ?? 'Tidak ada deskripsi' }}
                     </p>
-                    <div class="flex items-center justify-between text-xs text-gray-500">
-                        <span><i class="fas fa-hashtag mr-1"></i>ID: {{ $r['id'] ?? '' }}</span>
-                    </div>
                 </div>
             </div>
         @empty

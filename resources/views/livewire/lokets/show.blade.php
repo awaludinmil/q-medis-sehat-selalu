@@ -34,10 +34,6 @@
                             Kode: {{ $loket['kode_prefix'] ?? '' }}
                         </span>
                     </div>
-                    <div class="text-right text-white">
-                        <p class="text-sm opacity-80">ID Loket</p>
-                        <p class="text-2xl font-bold">{{ $loket['id'] ?? '' }}</p>
-                    </div>
                 </div>
             </div>
             <div class="p-6">

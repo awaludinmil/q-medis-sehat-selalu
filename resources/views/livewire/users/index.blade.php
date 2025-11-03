@@ -31,7 +31,7 @@
                 <table class="w-full border border-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">ID</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">No.</th>
                             <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">Nama</th>
                             <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">Email</th>
                             <th class="px-4 py-3 text-left text-sm font-bold text-gray-600 border-b border-gray-200">Role</th>
@@ -41,7 +41,7 @@
                     <tbody>
                         @forelse($rows as $r)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-3 text-sm text-gray-600 border-b border-gray-200">{{ $r['id'] ?? '' }}</td>
+                                <td class="px-4 py-3 text-sm text-gray-600 border-b border-gray-200">{{ (($page - 1) * $per_page) + $loop->iteration }}</td>
                                 <td class="px-4 py-3 text-sm font-semibold text-gray-800 border-b border-gray-200">{{ $r['name'] ?? '' }}</td>
                                 <td class="px-4 py-3 text-sm text-gray-600 border-b border-gray-200">{{ $r['email'] ?? '' }}</td>
                                 <td class="px-4 py-3 text-sm border-b border-gray-200">
