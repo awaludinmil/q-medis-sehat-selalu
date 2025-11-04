@@ -53,7 +53,7 @@
             
             <!-- Filter & Search -->
             <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 gap-4">
                     <!-- Search -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
@@ -64,20 +64,6 @@
                             wire:model.live.debounce.500ms="search" 
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                             placeholder="Cari nomor antrian...">
-                    </div>
-                    <!-- Status Filter -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-filter mr-1"></i>Filter Status
-                        </label>
-                        <select 
-                            wire:model.live="statusFilter" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <option value="">Semua Status</option>
-                            <option value="menunggu">Menunggu</option>
-                            <option value="dipanggil">Dipanggil</option>
-                            <option value="selesai">Selesai</option>
-                        </select>
                     </div>
                 </div>
             </div>

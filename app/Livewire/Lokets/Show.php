@@ -20,7 +20,6 @@ class Show extends Component
     public int $page = 1;
     public int $perPage = 50;
     public string $search = '';
-    public string $statusFilter = '';
     public int $total = 0;
     public int $lastPage = 1;
 
@@ -72,10 +71,6 @@ class Show extends Component
                 $params['search'] = $this->search;
             }
             
-            if ($this->statusFilter !== '') {
-                $params['status'] = $this->statusFilter;
-            }
-            
             $resp = $api->list($params);
             $data = $resp['data'] ?? $resp['items'] ?? $resp;
             
@@ -106,10 +101,7 @@ class Show extends Component
         $this->page = 1;
     }
     
-    public function updatingStatusFilter(): void
-    {
-        $this->page = 1;
-    }
+    
     
     public function updatingPerPage(): void
     {
