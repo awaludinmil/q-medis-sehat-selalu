@@ -42,6 +42,35 @@
             </div>
         </div>
 
+        <div class="bg-white rounded-lg shadow-lg mb-6">
+            <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-cyan-50">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-bullhorn mr-2 text-blue-600"></i>Sedang Dipanggil
+                </h3>
+            </div>
+            <div class="p-6 flex items-center justify-between">
+                @if($currentCalled)
+                    <div class="flex items-center gap-3">
+                        <span class="inline-block px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-700 text-white rounded-lg text-2xl font-extrabold">
+                            {{ $currentCalled['nomor_antrian'] ?? '-' }}
+                        </span>
+                        <span class="text-gray-600 text-sm">
+                            {{ isset($currentCalled['waktu_panggil']) && $currentCalled['waktu_panggil'] ? date('d/m/Y H:i', strtotime($currentCalled['waktu_panggil'])) : '-' }}
+                        </span>
+                    </div>
+                    @if($canUpdate)
+                        <button 
+                            wire:click="finishAntrian({{ $currentCalled['id'] ?? 0 }})"
+                            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow text-sm font-semibold inline-flex items-center">
+                            <i class="fas fa-check mr-2"></i> Selesaikan
+                        </button>
+                    @endif
+                @else
+                    <div class="text-gray-500">Belum ada antrian yang dipanggil.</div>
+                @endif
+            </div>
+        </div>
+
         <!-- Antrian Section -->
         <div class="bg-white rounded-lg shadow-lg">
             <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-cyan-50">

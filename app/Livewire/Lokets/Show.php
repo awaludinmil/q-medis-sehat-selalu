@@ -12,6 +12,7 @@ class Show extends Component
     public $loketId;
     public ?array $loket = null;
     public array $antrians = [];
+    public ?array $currentCalled = null;
     public ?string $error = null;
     public ?array $user = null;
     public bool $canUpdate = false;
@@ -42,6 +43,7 @@ class Show extends Component
         
         $this->loadLoket();
         $this->loadAntrians();
+        $this->loadCurrentCalled();
     }
 
     public function loadLoket(): void
@@ -93,6 +95,27 @@ class Show extends Component
             $this->antrians = [];
             $this->total = 0;
             $this->lastPage = 1;
+        }
+    }
+    
+    public function loadCurrentCalled(): void
+    {
+        try {
+            $api = app(AntrianApi::class);
+            $resp = $api->list([
+                'loket_id' => $this->loketId,
+                'status' => 'dipanggil',
+                'per_page' => 1,
+                'order_by' => 'waktu_panggil',
+                'order_dir' => 'desc',
+            ]);
+            if (isset($resp['data']['data']) && is_array($resp['data']['data']) && count($resp['data']['data']) > 0) {
+                $this->currentCalled = $resp['data']['data'][0];
+            } else {
+                $this->currentCalled = null;
+            }
+        } catch (\Throwable $e) {
+            $this->currentCalled = null;
         }
     }
     
@@ -154,6 +177,7 @@ class Show extends Component
             $api = app(AntrianApi::class);
             $api->update($id, ['status' => 'dipanggil']);
             $this->loadAntrians();
+            $this->loadCurrentCalled();
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
         }
@@ -171,6 +195,7 @@ class Show extends Component
             $api = app(AntrianApi::class);
             $api->update($id, ['status' => 'selesai']);
             $this->loadAntrians();
+            $this->loadCurrentCalled();
         } catch (\Throwable $e) {
             $this->error = $e->getMessage();
         }
@@ -180,6 +205,7 @@ class Show extends Component
     {
         $this->loadLoket();
         $this->loadAntrians();
+        $this->loadCurrentCalled();
     }
 
     public function render()
