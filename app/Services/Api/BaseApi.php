@@ -42,11 +42,9 @@ class BaseApi
                         $resp = $auth->refresh($refresh);
                         $data = is_array($resp) ? ($resp['data'] ?? $resp) : [];
                         $newAccess = $data['access_token'] ?? null;
-                        $newRefresh = $data['refresh_token'] ?? null;
                         if ($newAccess) {
                             session([
                                 'access_token' => $newAccess,
-                                'refresh_token' => $newRefresh ?: $refresh,
                             ]);
                             return $operation();
                         }

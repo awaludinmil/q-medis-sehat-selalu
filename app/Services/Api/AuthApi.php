@@ -28,12 +28,13 @@ class AuthApi extends BaseApi
 
     public function logout(?string $refresh_token = null): array
     {
-        $data = [];
-        if ($refresh_token) {
-            $data['refresh_token'] = $refresh_token;
-        }
         $client = $this->withAuth($this->client());
-        $json = $client->post('/api/auth/logout', $data)->throw()->json();
+        $cookieRefresh = session('refresh_token');
+        if ($cookieRefresh) {
+            $host = parse_url(config('api.base_url'), PHP_URL_HOST) ?: 'localhost';
+            $client = $client->withCookies(['refresh_token' => $cookieRefresh], $host);
+        }
+        $json = $client->post('/api/auth/logout')->throw()->json();
         return is_array($json) ? $json : [];
     }
 }
