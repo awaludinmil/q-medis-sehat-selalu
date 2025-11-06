@@ -58,13 +58,11 @@
                             {{ isset($currentCalled['waktu_panggil']) && $currentCalled['waktu_panggil'] ? date('d/m/Y H:i', strtotime($currentCalled['waktu_panggil'])) : '-' }}
                         </span>
                     </div>
-                    @if($canUpdate)
-                        <button 
-                            wire:click="finishAntrian({{ $currentCalled['id'] ?? 0 }})"
-                            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow text-sm font-semibold inline-flex items-center">
-                            <i class="fas fa-check mr-2"></i> Selesaikan
-                        </button>
-                    @endif
+                    <button 
+                        wire:click="finishAntrian({{ $currentCalled['id'] ?? 0 }})"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow text-sm font-semibold inline-flex items-center ring-2 ring-blue-200 transition-colors">
+                        <i class="fas fa-check mr-2"></i> Selesaikan
+                    </button>
                 @else
                     <div class="text-gray-500">Belum ada antrian yang dipanggil.</div>
                 @endif
